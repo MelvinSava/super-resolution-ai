@@ -1,0 +1,148 @@
+/* Styles de base */
+
+* {
+    font-family: 'Arial', sans-serif;
+}
+
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #043c78, #283b5d);
+
+    
+}
+
+
+h2 {
+
+    margin-top: 60px;
+    margin-bottom: 30px;
+    color:white;
+}
+
+/* Conteneur principal */
+.container {
+    
+    width: 600px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: auto;
+    margin-top: 60px;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #1E3A8A; /* Bleu élégant */
+    font-weight: bold;
+}
+
+
+input[type="file"] {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    font-size: 1em;
+}
+
+button {
+    padding: 12px 25px;
+    background: linear-gradient(to right, #4269b7, #3e40c4);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: linear-gradient(to right, #1f567d, #425dc9);
+}
+
+.progress-container {
+    display: none;
+    width: 60%; /* Réduction de la largeur */
+    max-width: 300px; /* Pour éviter qu'elle soit trop large */
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 20px auto; /* Centre horizontalement */
+}
+
+.progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+}
+
+
+/* Indicateur de chargement (spinner) */
+.loading-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Conteneur de l’image améliorée */
+.image-container {
+    display: none;
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Icône d’image */
+.image-container img:before {
+    content: url('https://cdn-icons-png.flaticon.com/512/685/685686.png');
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 10px;
+}
+
+.error {
+    color: red;
+    font-size: 1.1em;
+    margin-top: 20px;
+}

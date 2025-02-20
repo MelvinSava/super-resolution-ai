@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amélioration d'Image</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h2>Bienvenue sur notre solution d'amélioration AI des photos !</h2>
+
+    <!-- Conteneur principal -->
+    <div class="container">
+        <h1>Amélioration d'Image avec IA</h1>
+        <p>Veuillez sélectionner une image à améliorer :</p>
+
+        <!-- Input pour sélectionner l'image -->
+        <input type="file" id="fileInput" accept="image/*">
+        
+        <!-- Bouton pour envoyer l'image -->
+        <button id="uploadButton">Envoyer l'image</button>
+
+        <!-- Barre de progression -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Indicateur de chargement -->
+        <div id="loading" class="loading-container" style="display: none;">
+            <p>Traitement en cours...</p>
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Message d'erreur -->
+        <p class="error" id="errorMessage"></p>
+    </div>
+
+    <!-- Nouveau conteneur pour l'image améliorée -->
+    <div class="image-container" id="imageContainer" style="display: none;">
+        <img id="enhancedImage" src="" alt="Image améliorée">
+    </div>
+
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', function() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    const errorMessage = document.getElementById('errorMessage');
+    const resultDiv = document.getElementById('imageContainer');
+    const enhancedImage = document.getElementById('enhancedImage');
+    const loadingDiv = document.getElementById('loading');
+
+    if (!file) {
+        errorMessage.textContent = "Veuillez sélectionner une image.";
+        return;
+    }
+
+   
+    errorMessage.textContent = "";
+    progressContainer.style.display = "block";
+    progressBar.style.width = "0%";
+    loadingDiv.style.display = "block";
+    resultDiv.style.display = "none";
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("http://127.0.0.1:5000/upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            errorMessage.textContent = data.error;
+            progressContainer.style.display = "none";
+            loadingDiv.style.display = "none";
+            return;
+        }
+
+        let duration = Math.max(data.processing_time, 3); // Minimum 3s pour la fluidité visuelle
+        let startTime = Date.now();
+
+        function updateProgress() {
+            let elapsed = (Date.now() - startTime) / 1000;
+            let progress = Math.min((elapsed / duration) * 100, 100);
+            progressBar.style.width = progress + "%";
+
+            if (progress < 100) {
+                requestAnimationFrame(updateProgress);
+            } else {
+                setTimeout(() => {
+                    progressContainer.style.display = "none";
+                    loadingDiv.style.display = "none";
+
+                    // Affichage de l'image améliorée
+                    enhancedImage.src = data.image_url;
+                    resultDiv.style.display = "block";
+                }, 500);
+            }
+        }
+
+        requestAnimationFrame(updateProgress);
+    })
+    .catch(error => {
+        progressContainer.style.display = "none";
+        loadingDiv.style.display = "none";
+        errorMessage.textContent = "Erreur lors de l'envoi de l'image.";
+    });
+});
+
+    </script>
+
+</body>
+</html>
